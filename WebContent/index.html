@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script type="text/javascript"src="./jquery.js"></script>
+<script type="text/javascript" src="./jquery-1.6.4.min.js"></script>  
+        <script type="text/javascript">  
+           function convertAjaxPost(){  
+             var appid=$("#appid").val();  
+             var secretkey=$("#secretkey").val();
+             $.ajax({  
+               type:"post",//请求方式  
+               url:"Convert?appid="+encodeURI(appid)
+                   +"&secretkey="+encodeURI(secretkey),//发送请求地址  
+               timeout:30000,//超时时间：30秒  
+               dataType:"json",//设置返回数据的格式  
+               //请求成功后的回调函数 data为json格式  
+               success:function(data){  
+                  $("#taskid").val(data.taskId);  
+              },  
+              //请求出错的处理  
+              error:function(){
+                        alert("请求出错");  
+              }  
+           });  
+          }  
+          function contentAjaxPost(){  
+               var taskid=$("#taskid").val();  
+               var appid=$("#appid").val();  
+               var secretkey=$("#secretkey").val();
+               alert(taskid)
+               $.ajax({  
+                 type:"post",//请求方式  
+                 url:"GetContent?appid="+encodeURI(appid)
+                 +"&secretkey="+encodeURI(secretkey)
+                 +"&taskid="+encodeURI(taskid),//发送请求地址  
+                 timeout:30000,//超时时间：30秒  
+                 dataType:"json",//设置返回数据的格式  
+                 //请求成功后的回调函数 data为json格式  
+                 success:function(data){  
+                    $("#content").val(data.content);  
+                },  
+                //请求出错的处理  
+                error:function(){
+                          alert("请求出错");  
+                }  
+             });  
+            }  
+    </script> 
+	
+
+<title>语音转写</title>
+</head>
+<body>
+	<form id=convert method=post name=convert >
+		<table>
+		    <p>  
+           	 appid：  
+            	<input type="text" name="appid" id="appid" />  
+        	</p> 
+        	<p>  
+           	 secretkey：  
+            	<input type="text" name="secretkey" id="secretkey" />  
+        	</p> 
+
+			<p>
+				<input type="button" value="获取taskid" onclick="convertAjaxPost()" />
+			</p>
+		    <p>  
+           	 你的taskid：  
+            	<input type="text" name="taskid" id="taskid" />  
+        	</p> 
+		</table>
+		<table>
+		    <p>  
+            	<input type="button" value="获取文字" onclick="contentAjaxPost()" />  
+        	</p> 
+			<p>  
+            	内容：  
+            	<textarea name="content" id="content" rows="2" cols="20"></textarea>  
+        	</p>  
+        </table>
+	</form>
+	
+</body>
+</html>
