@@ -2,33 +2,34 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>语音转写</title>
 <script type="text/javascript"src="./jquery.js"></script>
 <script type="text/javascript" src="./jquery-1.6.4.min.js"></script>  
         <script type="text/javascript">  
            function convertAjaxPost(){  
              var appid=$("#appid").val();  
              var secretkey=$("#secretkey").val();
+             var filename=$("#filename").val();
              $.ajax({  
                type:"post",//请求方式  
                url:"Convert?appid="+encodeURI(appid)
-                   +"&secretkey="+encodeURI(secretkey),//发送请求地址  
+                   +"&secretkey="+encodeURI(secretkey)+"&filename="+encodeURI(filename),//发送请求地址  
                timeout:30000,//超时时间：30秒  
                dataType:"json",//设置返回数据的格式  
                //请求成功后的回调函数 data为json格式  
                success:function(data){  
-                  $("#taskid").val(data.taskId);  
+                  $("#taskid").val(data.taskId);
               },  
               //请求出错的处理  
               error:function(){
-                        alert("请求出错");  
+                  alert("请求出错！请检查appid,secretkey及文件上传是否正确！");
               }  
            });  
           }  
-          function contentAjaxPost(){  
+          function contentAjaxPost(){
                var taskid=$("#taskid").val();  
                var appid=$("#appid").val();  
                var secretkey=$("#secretkey").val();
-               alert(taskid)
                $.ajax({  
                  type:"post",//请求方式  
                  url:"GetContent?appid="+encodeURI(appid)
@@ -42,17 +43,169 @@
                 },  
                 //请求出错的处理  
                 error:function(){
-                          alert("请求出错");  
+                          alert("请求出错！");
                 }  
              });  
             }  
+          
+          function Upload(){
+          var formData = new FormData();
+          formData.append('file', $('#file')[0].files[0]);
+          $.ajax({
+              url: 'Upload',
+              type: 'POST',
+              cache: false,
+              data: formData,
+              processData: false,
+              contentType: false,
+              dataType:"json",
+              success:function(data){
+            	  //alert(data);  
+            	  $("#filename").val(data.filename);  
+                  alert(data.content);
+              },  
+              //请求出错的处理  
+              error:function(){
+                        alert("请求出错,请检查文件大小及文件类型！");  
+              } 
+          });//.done(function(res) {
+          //}).fail(function(res) {});  
+          }
     </script> 
 	
 
-<title>语音转写</title>
+    <style>
+        body {
+            font-family: 'Microsoft YaHei';
+            font-size: 17px;
+            color: white;
+        }
+        
+        a {
+        	color: blue;
+        }
+        
+        h2 {
+            text-align: center;
+            font-size: 40px;
+        }
+        
+        h4 {
+            text-align: center;
+        }
+        
+        .m-row {
+            margin-bottom: 14px;
+        }
+        
+        .m-container {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: url('imgs/bg.jpg') no-repeat;
+            background-size: cover;
+        }
+        
+        .m-mask {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .m-form {
+        	margin: 0 auto;
+            width: 1155px;
+            text-align: left;
+            line-height: 2;
+            position: relative;
+        }
+        
+        .u-name {
+            display: inline-block;
+            width: 140px;
+            text-align: right;
+        }
+        
+        .u-btn {
+            font-size: 16px;
+            background: none repeat scroll 0 0 rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 1px #fff inset;
+            color: #fff;
+            border-bottom-color: rgba(255, 255, 255, 0.5);
+            -webkit-appearance: none;
+            position: relative;
+            display: inline-block;
+            padding: 0.7em 1.8em 0.7em 1.8em;
+            border-radius: 0.25em;
+            cursor: pointer;
+            border: 0;
+            text-align: center;
+            text-decoration: none;
+            -moz-transition: all 0.25s ease-in-out;
+            -webkit-transition: all 0.25s ease-in-out;
+            -o-transition: all 0.25s ease-in-out;
+            -ms-transition: all 0.25s ease-in-out;
+            transition: all 0.25s ease-in-out;
+            margin-left: 140px;
+        }
+        
+        .u-btn:hover {
+            background: none repeat scroll 0 0 rgba(255, 255, 255, 0.35);
+            box-shadow: 0 0 0 1px #fff inset;
+        }
+        
+        .u-ipt {
+            color: white;
+            background: none repeat scroll 0 0 transparent;
+            border: 1px solid white;
+            padding: 5px;
+            width: 400px;
+            font-size: 20px;
+            line-height: 1.7;
+        }
+
+        textarea {
+            font-family: 'Microsoft YaHei';
+            color: white;
+            background: none repeat scroll 0 0 transparent;
+            border: 1px solid white;
+            padding: 5px;
+            width: 400px;
+            height: 180px;
+            font-size: 20px;
+            line-height: 1.7;
+            vertical-align: middle;
+            resize: none;
+        }
+        
+        .m-spec {
+            position: absolute;
+            top: -3px;
+            right: 0;
+            width: 560px;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+    </style>
+    
+    <script>
+	var _hmt = _hmt || [];
+	(function() {
+  	var hm = document.createElement("script");
+  	hm.src = "https://hm.baidu.com/hm.js?f0e8bb030f90b6f4cc9669e2a2b08b1e";
+  	var s = document.getElementsByTagName("script")[0]; 
+  	s.parentNode.insertBefore(hm, s);
+	})();
+</script>
+
 </head>
 <body>
-	<form id=convert method=post name=convert >
+	<!-- <form id=convert method=post name=convert >
 		<table>
 		    <p>  
            	 appid：  
@@ -80,7 +233,84 @@
             	<textarea name="content" id="content" rows="2" cols="20"></textarea>  
         	</p>  
         </table>
-	</form>
-	
+	</form> -->
+	    <section class="m-container">
+        <div class="m-mask">
+            <h2>
+                	语音转写
+            </h2>
+			<h4 >
+					免费web应用，通过讯飞语音接口进行语音转写文字
+			</h4>
+            <div class="m-form">
+                <div class="m-row">
+                    <span class="u-name">Appid：</span><input class='u-ipt' type="text" name="appid" id="appid" />
+                </div>
+
+                <div class="m-row">
+                    <span class="u-name">secret_key：</span><input class='u-ipt' type="text" name="secretkey" id="secretkey"
+                    />
+                </div>
+                
+                <div id="uploadForm" class="m-row">
+                    <input id="file" name="file" type="file" class="u-btn" style="width:209px;" />
+                    <input id="upload" class="u-btn" type="button" value="上传" onclick="Upload()" style="margin-left: 40px;" />
+                    <input type="hidden" name="filename" id="filename" />
+                </div>
+                <!-- <div class="m-row">
+                    <input class="u-btn" type="button" value="上传音频文件" onclick="upload()" />
+                </div> -->
+                
+                <div class="m-row">
+                    <input class="u-btn" type="button" value="获取 TaskID" onclick="convertAjaxPost()" />
+                </div>
+
+                <div class="m-row">
+                    <span class="u-name">你的 taskid：</span><input class='u-ipt' type="text" name="taskid" id="taskid" />
+                </div>
+                 <div class="m-spec">
+                    	操作步骤：
+                    <br>1.在科大讯飞云官网注册用户，点击SDK下载-->语音转写-->创建应用，获取Appid和secret_key
+                    <br>2.上传语音文件，文件最大为10M，支持wav,mp3,flac,opus,m4a格式的文件
+                    <br>3.点击获取taskid按钮生成taskid，请及时保存信息
+                    <br>4.成功生成taskid后，点击获取文字按钮，生成内容信息，请及时保存信息
+                    <br>
+                    <br>注意事项：
+                    <br>1.此应用通过调用科大讯飞语音接口完成，需要先在<a href="http://www.xfyun.cn" target="_blank">科大讯飞云官网</a>注册用户，可在<a href="http://www.xfyun.cn/doccenter/lfasr" target="_blank">语音转写</a>页面查看操作步骤
+                    <br>2.转写之前请保证讯飞账号里的时间长度余额可用(讯飞提供每个账号5小时免费转换时间)，如果想用手机版请下载讯飞官方app录音宝
+                    <br>3.若已经生成过taskid可直接输入Appid、secret_key和taskid来获取文字
+                    <br>4.点击获取文字如果出现The task is being processed, please get the results later.错误代码:0，表示正在生成中，请稍后再获取
+                    <div style="text-align:left;margin-top:8px;font-size:20px">觉得不错？支持一下？<img style="vertical-align: middle;" width="150" src="./imgs/555.png" alt=""></div>
+                </div>
+            </div>
+
+            <div class="m-form">
+                <div class="m-row">
+                    <input class="u-btn" type="button" value="获取文字" onclick="contentAjaxPost()" />
+                </div>
+
+                <div class="m-row">
+                    <span class="u-name">内容：</span><textarea style="font-size:15px;" name="content" id="content" rows="2"
+                        cols="20"></textarea>
+                </div>
+                
+                <p style="text-align:center;margin-top:50px;font-size:17px;">
+                    	<br>本站不会记录和公开语音、文字和id信息，请自行妥善保存
+                    	<br>如有疑问，请联系qq:250809345
+                </p>
+            </div>
+        </div>
+    </section>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-93572016-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
 </body>
 </html>

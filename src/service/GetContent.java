@@ -36,6 +36,7 @@ public class GetContent extends HttpServlet {
 		String appid = req.getParameter("appid");
 		String secret_key = req.getParameter("secretkey");
 		String taskid = req.getParameter("taskid");
+		System.out.println("****appid:"+appid+",secret_key:"+secret_key+",taskid:"+taskid+"****");
 		LfasrType type = LfasrType.LFASR_STANDARD_RECORDED_AUDIO;
 		LfasrClient client = null;
 		try {

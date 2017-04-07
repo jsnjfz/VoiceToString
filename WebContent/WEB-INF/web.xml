@@ -30,4 +30,14 @@
         <url-pattern>/GetContent</url-pattern>  
     </servlet-mapping>
     
+    <servlet>
+    	<servlet-name>Upload</servlet-name>
+    	<servlet-class>service.Upload</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+    	<servlet-name>Upload</servlet-name>
+    	<url-pattern>/Upload</url-pattern>
+	</servlet-mapping>
+    
 </web-app>
