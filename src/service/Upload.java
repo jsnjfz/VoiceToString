@@ -47,7 +47,7 @@ public class Upload extends HttpServlet{
             }
             
             fileName = mkFileName(fileName);
-            savePathStr = savePath + "\\" +  fileName;
+            savePathStr = savePath + "/" +  fileName;
             System.out.println("保存路径为:"+savePathStr);
             part.write(savePathStr);
             
@@ -80,18 +80,4 @@ public class Upload extends HttpServlet{
         return "";
     }
     
-    public String mkFilePath(String savePath,String fileName){
-        //得到文件名的hashCode的值，得到的就是filename这个字符串对象在内存中的地址
-        int hashcode = fileName.hashCode();
-        int dir1 = hashcode&0xf;
-        int dir2 = (hashcode&0xf0)>>4;
-        //构造新的保存目录
-        String dir = savePath + "\\" + dir1 + "\\" + dir2;
-        //File既可以代表文件也可以代表目录
-        File file = new File(dir);
-        if(!file.exists()){
-            file.mkdirs();
-        }
-        return dir;
-    }
 }

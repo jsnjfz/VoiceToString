@@ -49,7 +49,7 @@ public class Convert extends HttpServlet {
 			Message message = null;
 			try {
 				String savePath = this.getServletContext().getRealPath("/WEB-INF/upload");
-				message = client.lfasr_upload(savePath+"\\"+filename);
+				message = client.lfasr_upload(savePath+"/"+filename);
 			} catch (LfasrException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
