@@ -24,7 +24,7 @@ public class Convert extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
-        req.setCharacterEncoding("UTF-8");
+        req.setCharacterEncoding("utf-8");
         res.setCharacterEncoding("utf-8"); 
 		String taskId = "";
         PrintWriter out = res.getWriter();  

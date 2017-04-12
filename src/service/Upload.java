@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
 @MultipartConfig(fileSizeThreshold=1024*1024, // 1MB  当数据量大于该值时，内容将被写入文件
-	maxFileSize=1024*1024*10,      // 10MB  允许上传的文件最大值。默认值为 -1，表示没有限制
+	maxFileSize=1024*1024*20,      // 10MB  允许上传的文件最大值。默认值为 -1，表示没有限制
 	maxRequestSize=1024*1024*50)
 public class Upload extends HttpServlet{
 

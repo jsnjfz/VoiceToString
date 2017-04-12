@@ -30,8 +30,8 @@ public class GetContent extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse res)
             throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        res.setCharacterEncoding("utf-8"); 
-        PrintWriter out = res.getWriter();  
+        res.setCharacterEncoding("utf-8");
+        PrintWriter out = res.getWriter();
         String content = "";
 		String appid = req.getParameter("appid");
 		String secret_key = req.getParameter("secretkey");
@@ -52,34 +52,36 @@ public class GetContent extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		if (message.getErr_no() == 0 && message.getOk() == 0){
-			Gson gson = new Gson();
-			String json = message.getData();
-			if(json != null){
-				
-				  List persons=new ArrayList();
-				  List<JsonElement> list=new ArrayList();
-				  JsonParser jsonParser=new JsonParser();
-				  JsonElement jsonElement=jsonParser.parse(json);  //将json字符串转换成JsonElement
-				  JsonArray jsonArray=jsonElement.getAsJsonArray();  //将JsonElement转换成JsonArray
-				  Iterator it=jsonArray.iterator();  //Iterator处理
-				  while(it.hasNext()){  //循环
-				   jsonElement=(JsonElement) it.next(); //提取JsonElement
-				   json=jsonElement.toString();
-				   Map<String, String> map = gson.fromJson(json, new TypeToken<Map<String, String>>()
-			        {
-			        }.getType());
-				   content += map.get("onebest");	   
-				  }
-					res.setCharacterEncoding("utf-8"); 
-			}
-		}
-		else{
-			content = message.getFailed() + "错误代码:" + message.getErr_no();
-		}
+//		if (message.getErr_no() == 0 && message.getOk() == 0){
+//			Gson gson = new Gson();
+//			String json = message.getData();
+//			if(json != null){
+//				
+//				  List persons=new ArrayList();
+//				  List<JsonElement> list=new ArrayList();
+//				  JsonParser jsonParser=new JsonParser();
+//				  JsonElement jsonElement=jsonParser.parse(json);  //将json字符串转换成JsonElement
+//				  JsonArray jsonArray=jsonElement.getAsJsonArray();  //将JsonElement转换成JsonArray
+//				  Iterator it=jsonArray.iterator();  //Iterator处理
+//				  while(it.hasNext()){  //循环
+//				   jsonElement=(JsonElement) it.next(); //提取JsonElement
+//				   json=jsonElement.toString();
+//				   Map<String, String> map = gson.fromJson(json, new TypeToken<Map<String, String>>()
+//			        {
+//			        }.getType());
+//				   content += map.get("onebest");	   
+//				  }
+//					res.setCharacterEncoding("utf-8"); 
+//			}
+//		}
+//		else{
+//			content = message.getFailed() + "错误代码:" + message.getErr_no();
+//		}
+		content = message.getData();
+		System.out.println("****content:"+content+"****");
         out.print("{\"content\":\"" + content + "\"}");  
-        out.flush();  
-        out.close(); 
+        out.flush();
+        out.close();
 		  
     }
 
