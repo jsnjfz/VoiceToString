@@ -54,6 +54,10 @@ public class Convert extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}  //需要转写的音频文件的路径，如"E:\\20160716am-as-shenzhen-Alex.mp3"
+			catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} 
 			
 			if(message.getErr_no()==0 && message.getOk()==0){
 				taskId = message.getData();
