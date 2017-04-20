@@ -6,10 +6,12 @@
 <script type="text/javascript"src="./jquery.js"></script>
 <script type="text/javascript" src="./jquery-1.6.4.min.js"></script>  
         <script type="text/javascript">  
-           function convertAjaxPost(){  
+           function convertAjaxPost(){
              var appid=$("#appid").val();  
              var secretkey=$("#secretkey").val();
              var filename=$("#filename").val();
+             $("#gettaskid").attr("disabled", true);
+             $("#gettaskid").val("获取中，请稍候...");
              $.ajax({  
                type:"post",//请求方式  
                url:"Convert?appid="+encodeURI(appid)
@@ -17,12 +19,16 @@
                timeout:120000,//超时时间：60秒  
                dataType:"json",//设置返回数据的格式  
                //请求成功后的回调函数 data为json格式  
-               success:function(data){  
+               success:function(data){
                   $("#taskid").val(data.taskId);
+                  $('#gettaskid').removeAttr("disabled");
+                  $("#gettaskid").val("获取 taskid");
               },  
               //请求出错的处理  
               error:function(){
                   alert("请求出错！请检查appid,secretkey及文件上传是否正确！");
+                  $('#gettaskid').removeAttr("disabled");
+                  $("#gettaskid").val("获取 taskid");
               }  
            });  
           }  
@@ -51,6 +57,8 @@
           function Upload(){
           var formData = new FormData();
           formData.append('file', $('#file')[0].files[0]);
+          $("#upload").val("上传中..");
+          $("#upload").attr("disabled", true);
           $.ajax({
               url: 'Upload',
               type: 'POST',
@@ -62,11 +70,15 @@
               success:function(data){
             	  //alert(data);  
             	  $("#filename").val(data.filename);  
+                  $("#upload").val("上传");
+                  $('#upload').removeAttr("disabled");
                   alert(data.content);
               },  
               //请求出错的处理  
               error:function(){
-                        alert("请求出错,请检查文件大小及文件类型！");  
+                  $("#upload").val("上传");
+                  $('#upload').removeAttr("disabled");
+                  alert("请求出错,请检查文件大小及文件类型！");  
               } 
           });//.done(function(res) {
           //}).fail(function(res) {});  
@@ -205,35 +217,6 @@
 
 </head>
 <body>
-	<!-- <form id=convert method=post name=convert >
-		<table>
-		    <p>  
-           	 appid：  
-            	<input type="text" name="appid" id="appid" />  
-        	</p> 
-        	<p>  
-           	 secretkey：  
-            	<input type="text" name="secretkey" id="secretkey" />  
-        	</p> 
-
-			<p>
-				<input type="button" value="获取taskid" onclick="convertAjaxPost()" />
-			</p>
-		    <p>  
-           	 你的taskid：  
-            	<input type="text" name="taskid" id="taskid" />  
-        	</p> 
-		</table>
-		<table>
-		    <p>  
-            	<input type="button" value="获取文字" onclick="contentAjaxPost()" />  
-        	</p> 
-			<p>  
-            	内容：  
-            	<textarea name="content" id="content" rows="2" cols="20"></textarea>  
-        	</p>  
-        </table>
-	</form> -->
 	    <section class="m-container">
         <div class="m-mask">
             <h2>
@@ -242,7 +225,7 @@
 			<h4 >
 					免费web应用，通过讯飞语音接口进行在线语音转写文字
 			</h4>
-            <div class="m-form">
+            <div class="m-form" style="z-index: 100">
                 <div class="m-row">
                     <span class="u-name">Appid：</span><input class='u-ipt' type="text" name="appid" id="appid" />
                 </div>
@@ -257,12 +240,9 @@
                     <input id="upload" class="u-btn" type="button" value="上传" onclick="Upload()" style="margin-left: 40px;" />
                     <input type="hidden" name="filename" id="filename" />
                 </div>
-                <!-- <div class="m-row">
-                    <input class="u-btn" type="button" value="上传音频文件" onclick="upload()" />
-                </div> -->
                 
                 <div class="m-row">
-                    <input class="u-btn" type="button" value="获取 TaskID" onclick="convertAjaxPost()" />
+                    <input id="gettaskid" class="u-btn" type="button" value="获取 taskid" onclick="convertAjaxPost()" />
                 </div>
 
                 <div class="m-row">
@@ -272,7 +252,7 @@
                     	操作步骤：
                     <br>1.在科大讯飞云官网注册用户，点击SDK下载-->语音转写-->创建应用，获取Appid和secret_key
                     <br>2.上传语音文件，文件最大为20M，支持wav,mp3,flac,opus,m4a格式的文件,上传时请耐心等待
-                    <br>3.点击获取taskid按钮，等待一下，生成taskid，请及时保存信息
+                    <br>3.点击获取taskid按钮，上传较大文件时，请耐心等待。生成taskid，请及时保存信息
                     <br>4.成功生成taskid后，点击获取文字按钮，生成内容信息，请及时保存信息
                     <br>
                     <br>注意事项：
@@ -284,7 +264,7 @@
                 </div>
             </div>
 
-            <div class="m-form">
+            <div class="m-form" style="z-index: 1">
                 <div class="m-row">
                     <input class="u-btn" type="button" value="获取文字" onclick="contentAjaxPost()" />
                 </div>
@@ -295,7 +275,6 @@
                 </div>
                 
                 <p style="text-align:center;margin-top:50px;font-size:17px;">
-                    	<br>本站不会记录和公开语音、文字和id信息，请自行妥善保存
                     	<br>如有疑问，请联系qq:250809345
                 </p>
             </div>
