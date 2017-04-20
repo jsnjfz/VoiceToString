@@ -31,7 +31,11 @@ public class Upload extends HttpServlet{
             String fileName = extractFileName(part);
             System.out.println(fileName);
             if(fileName==null||fileName.trim().equals("")){
-                continue;
+                message = "请选择文件进行上传！";
+                out.print("{\"content\":\"" + message + "\"}");  
+                out.flush();  
+                out.close();  
+                return;
             }
             //注意：不同的浏览器提交的文件名是不一样的，有些浏览器提交上来的文件名是带有路径的，如：  c:\a\b\1.txt，而有些只是单纯的文件名，如：1.txt
             //处理获取到的上传文件的文件名的路径部分，只保留文件名部分
